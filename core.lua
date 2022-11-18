@@ -1,5 +1,5 @@
 --[[          	  Simple Light Data Text				]]
---[[ Author: Taffu	RevDate: 01/21/18	Version: 7.3.1	]]
+--[[ Author: Taffu, azuraji	RevDate: 11/19/22	Version: 10.0.2.1	]]
 
 -- Rev Notes:
 -- Reviewed Code

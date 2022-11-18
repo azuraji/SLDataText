@@ -82,21 +82,21 @@ local tags = {
 	["T"] = function()
 		local total = 0
 		for i = 0, NUM_BAG_SLOTS do
-			total = total + GetContainerNumSlots(i)
+			total = total + C_Container.GetContainerNumSlots(i)
 		end
 		return string.format("|cffffffff%s|r|cff%s", total, SLDT.db.profile.cCol and SLDT.classColor or "ffffff")
 	end,
 	["U"] = function()
 		local rem, total = 0, 0
 		for i = 0, NUM_BAG_SLOTS do
-			rem, total = rem + GetContainerNumFreeSlots(i), total + GetContainerNumSlots(i)
+			rem, total = rem + C_Container.GetContainerNumFreeSlots(i), total + C_Container.GetContainerNumSlots(i)
 		end
 		return string.format("|cffffffff%s|r|cff%s", total-rem, SLDT.db.profile.cCol and SLDT.classColor or "ffffff")
 	end,
 	["R"] = function()
 		local rem = 0
 		for i = 0, NUM_BAG_SLOTS do
-			rem = rem + GetContainerNumFreeSlots(i)
+			rem = rem + C_Container.GetContainerNumFreeSlots(i)
 		end
 		return string.format("|cffffffff%s|r|cff%s", rem, SLDT.db.profile.cCol and SLDT.classColor or "ffffff")
 	end,

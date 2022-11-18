@@ -36,7 +36,7 @@ local function SetupToolTip()
 end
 
 local function UpdateDisplay()
-	if ( MiniMapMailFrame:IsVisible() ) then MiniMapMailFrame:Hide() end
+	if ( MailFrame:IsVisible() ) then MailFrame:Hide() end
 	
 	if ( db["ahAlert"] ) then
 		-- Change icon to AHAlert icon
