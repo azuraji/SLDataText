@@ -1,17 +1,17 @@
 --[[ 		     SLDataText Module: Bag 				]]
---[[ Author: Taffu  RevDate: 01/21/2018  Version: 7.3.1 ]]
+--[[ Author: Taffu  RevDate: 11/23/2022  Version: 10.0.2.2 ]]
 
 local SLDT, MODNAME = SLDataText, "Bag"
-if ( SLDT ) then SLDT.Bag = CreateFrame("Frame") end
+if (SLDT) then SLDT.Bag = CreateFrame("Frame") end
 local L = SLDT.Locale
 local db, frame, text, tool
 
 local function convertMoney(moolah, display)
     local g, s, c = abs(moolah/10000), abs(mod(moolah/100, 100)), abs(mod(moolah, 100))
 	local cash
-    if ( display ) then -- True = Long display
-		if ( g < 1 ) then g = "" else g = string.format("%d|cffffd700g|r ", g) end
-		if ( s < 1 ) then s = "" else s = string.format("%d|cffc7c7cfs|r ", s) end
+    if (display) then -- True = Long display
+		if (g < 1) then g = "" else g = string.format("%d|cffffd700g|r ", g) end
+		if (s < 1) then s = "" else s = string.format("%d|cffc7c7cfs|r ", s) end
 		c = string.format("%d|cffeda55fc|r", c)
         cash = string.format("%s%s%s", g, s, c)
     else
@@ -25,7 +25,7 @@ local function SetupToolTip()
 		GameTooltip:SetOwner(this, db.aF)
 		local bagRem, bagTtl = 0, 0
 		for i = 0, NUM_BAG_SLOTS do
-			bagRem, bagTtl = bagRem + GetContainerNumFreeSlots(i), bagTtl + GetContainerNumSlots(i)
+			bagRem, bagTtl = bagRem + C_Container.GetContainerNumFreeSlots(i), bagTtl + C_Container.GetContainerNumSlots(i)
 		end
 		GameTooltip:AddLine("|cffffffff"..L["Bag Info"].."|r")
 		GameTooltip:AddDoubleLine(L["Space Used"], string.format("%d", bagTtl - bagRem), 1,1,0,1,1,1)
@@ -44,25 +44,25 @@ local function SetupToolTip()
 end
 
 function SLDT.Bag:Enable()
-	if ( db.enabled ) then
+	if (db.enabled) then
 		SLDT:UpdateBaseText(self, db)
 		self:RegisterEvent("BAG_UPDATE")
 		self:RegisterEvent("MERCHANT_SHOW")
 		self:SetScript("OnEvent", function(self, event)
-			if ( event == "MERCHANT_SHOW" and db.selljunk ) then
+			if (event == "MERCHANT_SHOW" and db.selljunk) then
 				local junkMon = 0
-				for bag = 0, NUM_BAG_SLOTS do 
-					for slot = 0, GetContainerNumSlots(bag) do
-						local link = GetContainerItemLink(bag, slot)
+				for containerIndex = 0, NUM_BAG_SLOTS do 
+					for slotIndex = 0, C_Container.GetContainerNumSlots(containerIndex) do
+						local link = C_Container.GetContainerItemLink(containerIndex, slotIndex)
 						if ( link ) then
-							if ( select(3, GetItemInfo(link)) == 0 ) then
-								junkMon = junkMon + select(11, GetItemInfo(link)) * select(2, GetContainerItemInfo(bag, slot))
+							if (select(3, GetItemInfo(link)) == 0 ) then
+								junkMon = junkMon + select(11, GetItemInfo(link)) * select(2, C_Container.GetContainerItemInfo(containerIndex, slotIndex))
 								UseContainerItem(bag, slot)
 							end
 						end
 					end
 				end
-				if ( junkMon > 0 ) then print(string.format("|cff6698FFSLDataText|r: %s %s", L["JunkSoldLine"], convertMoney(junkMon, true))) end
+				if (junkMon > 0) then print(string.format("|cff6698FFSLDataText|r: %s %s", L["JunkSoldLine"], convertMoney(junkMon, true))) end
 				self:Refresh()
 			else self:Refresh() end
 		end)
