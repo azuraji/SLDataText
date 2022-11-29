@@ -2,7 +2,7 @@
 ## Title: SLDataText
 ## Author: Taffu
 ## Notes: Simple Light Data Text! Special thanks to Suicidal Katt & snichols1122
-## Version: 10.0.2.3
+## Version: 10.0.2.4
 ## SavedVariables: SLDTDB
 
 Libs\Libstub\Libstub.lua

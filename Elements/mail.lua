@@ -36,8 +36,6 @@ local function SetupToolTip()
 end
 
 local function UpdateDisplay()
-	if ( MailFrame:IsVisible() ) then MailFrame:Hide() end
-	
 	if ( db["ahAlert"] ) then
 		-- Change icon to AHAlert icon
 		handler.iconString = string.format("|T%s:0|t", handler.AHICON)
