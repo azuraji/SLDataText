@@ -52,35 +52,35 @@ end
 
 function SLDataText:Pulse(module, start)
 	module.Pulse = module.Pulse or self:SetupPulseFrame(module)
-	if ( not module.Pulse.down ) then module.Pulse.down = false end
+	if (not module.Pulse.down) then module.Pulse.down = false end
     
-    if ( not start ) then
-        if ( module.Pulse:IsShown() ) then module.Pulse:Hide() end
-        module.Pulse:SetScript("OnUpdate", nil)
+    if (not start) then
+			if (module.Pulse:IsShown()) then module.Pulse:Hide() end
+			module.Pulse:SetScript("OnUpdate", nil)
     else
-        if ( not module.Pulse:IsShown() ) then module.Pulse:Show() end
-        module.Pulse:SetFrameLevel(0)
-        module.Pulse:SetScript("OnUpdate", function(self, elapsed)
-            local step = abs(1/30)
-            if ( self:GetAlpha() == 1 ) then
-                module.Pulse.down = true; self:SetAlpha(self:GetAlpha()-step)
-            elseif ( self:GetAlpha() == 0 ) then
-                module.Pulse.down = false; self:SetAlpha(self:GetAlpha()+step)
-            else
-                if ( module.Pulse.down ) then
-                    self:SetAlpha(self:GetAlpha()-step)
-                else
-                    self:SetAlpha(self:GetAlpha()+step)
-                end
-            end
-        end)
+			if (not module.Pulse:IsShown()) then module.Pulse:Show() end
+			module.Pulse:SetFrameLevel(0)
+			module.Pulse:SetScript("OnUpdate", function(self, elapsed)
+				local step = abs(1 / 30)
+				if (self:GetAlpha() == 1) then
+					module.Pulse.down = true; self:SetAlpha(self:GetAlpha() - step)
+				elseif (self:GetAlpha() == 0) then
+					module.Pulse.down = false; self:SetAlpha(self:GetAlpha() + step)
+				else
+					if (module.Pulse.down) then
+						self:SetAlpha(self:GetAlpha() - step)
+					else
+						self:SetAlpha(self:GetAlpha() + step)
+					end
+				end
+			end)
     end
 end
 
 function SLDataText:UpdateBaseText(module, mdb)
 	local font, gfont, gfontSize, text = SML:Fetch("font", mdb.font), SML:Fetch("font", db.gFont), db.gFontSize, module.Text
 	text:SetFont(mdb.gfont and gfont or font, mdb.gfont and gfontSize or mdb.fontSize, mdb.outline and "THINOUTLINE" or nil)	
-	if ( not mdb.outline ) then text:SetShadowColor(0,0,0,1); text:SetShadowOffset(1, -1) else text:SetShadowColor(0,0,0,0) end
+	if (not mdb.outline) then text:SetShadowColor(0, 0, 0, 1); text:SetShadowOffset(1, -1) else text:SetShadowColor(0, 0, 0, 0) end
 	text:ClearAllPoints()
 	text:SetPoint("CENTER", module.Frame, "CENTER", 0, 0)
 end
@@ -88,7 +88,7 @@ end
 local function SLDTAnchorFix(module, mdb)
 	local reset, timer = CreateFrame("Frame"), 10
 	reset:SetScript("OnUpdate", function(this, elapsed)
-		if ( (GetTime() - elapsed) >= timer ) then
+		if ((GetTime() - elapsed) >= timer) then
 			reset:SetScript("OnUpdate", nil)
 			SLDataText:UpdateBaseFrame(module, mdb)
 		end
@@ -99,13 +99,13 @@ function SLDataText:UpdateBaseFrame(module, mdb)
 	module.Frame:SetWidth(module.Text:GetWidth()); module.Frame:SetHeight(module.Text:GetHeight())
 	module.Frame:ClearAllPoints()
 
-	if ( string.sub(mdb.anch, 0, 5) == "SLDT_" ) then
+	if (string.sub(mdb.anch, 0, 5) == "SLDT_") then
 		local found = false
 		for k, v in pairs(SLDataText.Modules) do
 			local frame = SLDataText[v[1]].Frame
-			if ( frame:GetName() == mdb.anch ) then found = true end
+			if (frame:GetName() == mdb.anch) then found = true end
 		end
-		if ( not found ) then
+		if (not found) then
 			SLDTAnchorFix(module, mdb)
 		else
 			module.Frame:SetParent(frame)
@@ -118,48 +118,56 @@ function SLDataText:UpdateBaseFrame(module, mdb)
 	
 	module.Frame:SetFrameStrata(mdb.strata)
 	module.Tool:SetAllPoints(module.Frame)
-	if ( module.Pulse ) then
-		module.Pulse:SetWidth(module.Frame:GetWidth()+8); module.Pulse:SetHeight(module.Frame:GetHeight()+8)
+	if (module.Pulse) then
+		module.Pulse:SetWidth(module.Frame:GetWidth() + 8); module.Pulse:SetHeight(module.Frame:GetHeight() + 8)
 	end
-	if ( not mdb.tooltipOn or db.configMode ) then module.Tool:EnableMouse(false) else module.Tool:EnableMouse(true) end
-	if ( db.configMode ) then module.Frame:EnableMouse(true) else module.Frame:EnableMouse(false) end
-	if ( not module.Frame:IsShown() ) then module.Frame:Show() end
+	if (not mdb.tooltipOn or db.configMode) then module.Tool:EnableMouse(false) else module.Tool:EnableMouse(true) end
+	if (db.configMode) then module.Frame:EnableMouse(true) else module.Frame:EnableMouse(false) end
+	if (not module.Frame:IsShown()) then module.Frame:Show() end
 end
 
 function SLDataText:AddModule(modname, db)
-	if ( not modname or modname == nil ) then error("SLDataText:AddModule(modname, db) - 'modname': string expected, cannot create module entry", 2) end
-	if ( not db or db == nil ) then error("SLDataText:AddModule(modname, db) - 'db': table expected, cannot create module entry", 2) end
+	if (not modname or modname == nil) then error("SLDataText:AddModule(modname, db) - 'modname': string expected, cannot create module entry", 2) end
+	if (not db or db == nil) then error("SLDataText:AddModule(modname, db) - 'db': table expected, cannot create module entry", 2) end
 	
 	self.Modules = self.Modules or {}
-	if ( not self.Modules[modname] ) then
+	if (not self.Modules[modname]) then
 		table.insert(self.Modules, { modname, db })
 	end
 end
 
 local function FadeOut(module)
 	local step, f = 0.1, CreateFrame("Frame")
-	if ( db.cFade ) then
+	if (db.cFade) then
 		f:SetScript("OnUpdate", function()
 			local mAlpha = module.Frame:GetAlpha()
-			if ( mAlpha > 0 ) then module.Frame:SetAlpha(mAlpha-step)
-			elseif ( mAlpha == 0 ) then f:SetScript("OnUpdate", nil); f = nil end
+			if (mAlpha > 0)
+				then module.Frame:SetAlpha(math.min(math.max(mAlpha - step, 0), 1))
+			elseif (mAlpha == 0) then
+				f:SetScript("OnUpdate", nil)
+				f = nil
+			end
 		end)
 	end
 end
 
 local function FadeIn(module)
 	local step, f = 0.1, CreateFrame("Frame")
-	if ( db.cFade ) then
+	if (db.cFade) then
 		f:SetScript("OnUpdate", function()
 			local mAlpha = module.Frame:GetAlpha()
-			if ( mAlpha < 1 ) then module.Frame:SetAlpha(mAlpha+step)
-			elseif ( mAlpha == 1 ) then f:SetScript("OnUpdate", nil); f = nil end
+			if (mAlpha < 1) then
+				module.Frame:SetAlpha(math.min(math.max(mAlpha + step, 0), 1))
+			elseif (mAlpha == 1) then
+				f:SetScript("OnUpdate", nil)
+				f = nil
+			end
 		end)
 	end
 end
 
 local function SLDT_ChangeMode(module, mdb)
-	if ( db.configMode ) then
+	if (db.configMode) then
 		module.Frame:Show()
 		module.Frame:EnableMouse(true)
 		module.Frame:SetBackdropColor(0,0,0,0.75)
@@ -167,11 +175,11 @@ local function SLDT_ChangeMode(module, mdb)
 				
 		module.Frame:SetMovable(true)
 		module.Frame:SetScript("OnMouseDown", function(_, button) 
-			if ( button == "LeftButton" ) then SLC:MoveSLFrame(module.Frame, mdb); module.Moving = true end
-			if ( button == "RightButton" ) then SLC:OpenOptBox(module) end
+			if (button == "LeftButton") then SLC:MoveSLFrame(module.Frame, mdb); module.Moving = true end
+			if (button == "RightButton") then SLC:OpenOptBox(module) end
 		end)
 		module.Frame:SetScript("OnMouseUp", function(_, button) 
-			if ( button == "LeftButton" ) then SLC:StopSLFrame(module.Frame, mdb, module.Opt, mdb.name); module.Moving = false end
+			if (button == "LeftButton") then SLC:StopSLFrame(module.Frame, mdb, module.Opt, mdb.name); module.Moving = false end
 		end)
 		module.Frame:SetScript("OnEnter", function(this)
 			GameTooltip:SetOwner(this, "ANCHOR_TOP", 0, 6)
@@ -180,9 +188,9 @@ local function SLDT_ChangeMode(module, mdb)
 			GameTooltip:AddDoubleLine("Right-Click", "Open Menu", 1,1,0,1,1,1)
 			GameTooltip:Show()
 		end)
-		module.Frame:SetScript("OnLeave", function(this) if ( GameTooltip:IsVisible() ) then GameTooltip:Hide() end end)
+		module.Frame:SetScript("OnLeave", function(this) if (GameTooltip:IsVisible()) then GameTooltip:Hide() end end)
 	else
-		if ( not mdb.enabled ) then module.Frame:Hide() end
+		if (not mdb.enabled) then module.Frame:Hide() end
 		module.Frame:EnableMouse(false)
 		module.Frame:SetBackdropColor(0,0,0,0)
 		module.Tool:EnableMouse(true)
@@ -223,18 +231,18 @@ local optsTbl = {
 
 SLASH_SLDT1 = L["/sldt"]
 function SlashCmdList.SLDT(msg, _)
-	if ( type(msg) == "string" and string.len(msg) > 1 ) then
-		if ( string.lower(msg) == string.lower(L["config"]) ) then
+	if (type(msg) == "string" and string.len(msg) > 1) then
+		if (string.lower(msg) == string.lower(L["config"])) then
 			db.configMode = not db.configMode
 			print(string.format("|cff6698FFSLDataText|r Configuration Mode |cffffff00%s|r.", db.configMode and "active" or "inactive"))
 			for k, v in pairs(SLDataText.Modules) do
 				SLDT_ChangeMode(SLDataText[v[1]], v[2])
 				SLDataText[v[1]]:Refresh()
 			end
-		elseif ( string.lower(msg) == L["global"] ) then
-			if ( not SLDataText.Opt ) then SLC:CreateMenu("SLDataText", SLDataText, optsTbl) end
+		elseif (string.lower(msg) == L["global"]) then
+			if (not SLDataText.Opt) then SLC:CreateMenu("SLDataText", SLDataText, optsTbl) end
 			SLC:OpenOptBox(SLDataText)
-		elseif ( SLDataText[msg] ) then
+		elseif (SLDataText[msg]) then
 			SLC:OpenOptBox(SLDataText[msg])
 		end
 	else
@@ -273,29 +281,29 @@ local function OnInit()
 	-- Force configMode off OnLoad
 	db["configMode"] = false
 	-- Do this to ensure proper scaling of global menu to UIParent
-	if ( not SLDataText.Frame ) then SLDataText.Frame = CreateFrame("Frame", nil, UIParent) end
+	if (not SLDataText.Frame) then SLDataText.Frame = CreateFrame("Frame", nil, UIParent) end
 	-- Kill OnInit
 	SLDataText:UnregisterEvent("PLAYER_LOGIN")
 	-- Get class color hex
 	local class = select(2, UnitClass("player"))
-	SLDataText.classColor = string.format("%02X%02X%02X", RAID_CLASS_COLORS[class].r*255, RAID_CLASS_COLORS[class].g*255, RAID_CLASS_COLORS[class].b*255)
+	SLDataText.classColor = string.format("%02X%02X%02X", RAID_CLASS_COLORS[class].r * 255, RAID_CLASS_COLORS[class].g * 255, RAID_CLASS_COLORS[class].b * 255)
 	-- Setup Fade Functionality
 	SLDataText:RegisterEvent("PLAYER_REGEN_ENABLED")
 	SLDataText:RegisterEvent("PLAYER_REGEN_DISABLED")
 	SLDataText:SetScript("OnEvent", function(_, event)
-		if ( event == "PLAYER_REGEN_DISABLED" ) then
+		if (event == "PLAYER_REGEN_DISABLED") then
 			-- In combat / fade out
 			for _, v in pairs(SLDataText.Modules) do
 				local module, mdb = SLDataText[v[1]], v[2]
-				if ( not mdb.forceShow ) then
+				if (not mdb.forceShow) then
 					FadeOut(module)
 				end
 			end
-		elseif ( event == "PLAYER_REGEN_ENABLED" ) then
+		elseif (event == "PLAYER_REGEN_ENABLED") then
 			-- Out of combat / fade in
 			for _, v in pairs(SLDataText.Modules) do
 				local module, mdb = SLDataText[v[1]], v[2]
-				if ( not mdb.forceShow ) then
+				if (not mdb.forceShow) then
 					FadeIn(module)
 				end
 			end
