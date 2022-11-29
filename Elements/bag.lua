@@ -1,5 +1,5 @@
 --[[ 		     SLDataText Module: Bag 				]]
---[[ Author: Taffu  RevDate: 11/23/2022  Version: 10.0.2.2 ]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
 local SLDT, MODNAME = SLDataText, "Bag"
 if (SLDT) then SLDT.Bag = CreateFrame("Frame") end

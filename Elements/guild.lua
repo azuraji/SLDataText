@@ -1,5 +1,5 @@
  --[[ 		     SLDataText Module: Guild 				]]
---[[ Author: Taffu  RevDate: 08/02/2018  Version: 8.0.2 ]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
 -- Updated by Suicidal Katt
 -- Class coloring returns in this version.

@@ -1,5 +1,5 @@
 --[[ 		     SLDataText Module: Armor 				]]
---[[ Author: Taffu  RevDate: 07/13/2012  Version: 5.0.0 ]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
 -- Added guild fund repair
 

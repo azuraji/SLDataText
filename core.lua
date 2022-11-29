@@ -1,10 +1,7 @@
 --[[          	  Simple Light Data Text				]]
---[[ Author: Taffu, azuraji	RevDate: 11/19/22	Version: 10.0.2.1	]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
--- Rev Notes:
--- Reviewed Code
--- Minor Adjustments
--- Investigating slow LibSharedMedia response.
+-- Updated by azuraji
 
 local addon, ns = ...
 SLDataText = CreateFrame("Frame")
@@ -28,53 +25,6 @@ function SLDataText:SetupBaseFrame(module)
 	tool:EnableMouse(true)
 	
 	return frame, text, tool
-end
-
-function SLDataText:SetupPulseFrame(module)
-	module.Pulse = module.Pulse or CreateFrame("Frame", nil, module.Frame, BackdropTemplateMixin and "BackdropTemplate")
-	local pulse = module.Pulse
-	pulse:SetBackdrop({ 
-		bgFile = "Interface\\BUTTONS\\WHITE8X8",
-		edgeFile = "Interface\\AddOns\\SLDataText\\Media\\glowTex",
-		tile = true, tileSize = 16, edgeSize = 4,
-		insets = { left = 3, top = 3, right = 3, bottom = 3 }
-	})
-	pulse:EnableMouse(false)
-	pulse:SetBackdropColor(1,1,0,1)
-	pulse:SetBackdropBorderColor(1,1,0,1)
-	pulse:Hide()
-	
-	pulse:ClearAllPoints()
-	pulse:SetPoint("CENTER", module.Frame, "CENTER", 0, 0)
-	
-	return pulse
-end
-
-function SLDataText:Pulse(module, start)
-	module.Pulse = module.Pulse or self:SetupPulseFrame(module)
-	if (not module.Pulse.down) then module.Pulse.down = false end
-    
-    if (not start) then
-			if (module.Pulse:IsShown()) then module.Pulse:Hide() end
-			module.Pulse:SetScript("OnUpdate", nil)
-    else
-			if (not module.Pulse:IsShown()) then module.Pulse:Show() end
-			module.Pulse:SetFrameLevel(0)
-			module.Pulse:SetScript("OnUpdate", function(self, elapsed)
-				local step = abs(1 / 30)
-				if (self:GetAlpha() == 1) then
-					module.Pulse.down = true; self:SetAlpha(self:GetAlpha() - step)
-				elseif (self:GetAlpha() == 0) then
-					module.Pulse.down = false; self:SetAlpha(self:GetAlpha() + step)
-				else
-					if (module.Pulse.down) then
-						self:SetAlpha(self:GetAlpha() - step)
-					else
-						self:SetAlpha(self:GetAlpha() + step)
-					end
-				end
-			end)
-    end
 end
 
 function SLDataText:UpdateBaseText(module, mdb)
@@ -118,9 +68,6 @@ function SLDataText:UpdateBaseFrame(module, mdb)
 	
 	module.Frame:SetFrameStrata(mdb.strata)
 	module.Tool:SetAllPoints(module.Frame)
-	if (module.Pulse) then
-		module.Pulse:SetWidth(module.Frame:GetWidth() + 8); module.Pulse:SetHeight(module.Frame:GetHeight() + 8)
-	end
 	if (not mdb.tooltipOn or db.configMode) then module.Tool:EnableMouse(false) else module.Tool:EnableMouse(true) end
 	if (db.configMode) then module.Frame:EnableMouse(true) else module.Frame:EnableMouse(false) end
 	if (not module.Frame:IsShown()) then module.Frame:Show() end

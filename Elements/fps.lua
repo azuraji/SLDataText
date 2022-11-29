@@ -1,5 +1,5 @@
 --[[ 		     SLDataText Module: FPS 				]]
---[[ Author: Taffu  RevDate: 01/21/2018  Version: 7.3.1 ]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
 local SLDT, MODNAME = SLDataText, "FPS"
 if ( SLDT ) then SLDT.FPS = CreateFrame("Frame") end

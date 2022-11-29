@@ -1,8 +1,8 @@
 ## Interface: 100002
 ## Title: SLDataText
 ## Author: Taffu
-## Notes: Simple Light Data Text! Special thanks to Suicidal Katt & snichols1122
-## Version: 10.0.2.4
+## Notes: Simple Light Data Text! Updated by azuraji
+## Version: 10.0.2.5
 ## SavedVariables: SLDTDB
 
 Libs\Libstub\Libstub.lua

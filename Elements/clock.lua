@@ -1,5 +1,5 @@
 --[[ 		     SLDataText Module: Clock 				]]
---[[ Author: Taffu  RevDate: 01/21/2018  Version: 7.3.1 ]]
+--[[ Author: Taffu, azuraji	RevDate: 11/29/22	Version: 10.0.2.5	]]
 
 -- Updated by Suicidal Katt
 -- Added additional toggle for "Custom Time Format", previously the custom string was only used if realmTime was not used.
@@ -325,5 +325,5 @@ SLDT.Clock:SetScript("OnEvent", OnInit)
 %X	time (e.g., 23:48:10)
 %Y	full year (1998)
 %y	two-digit year (98) [00-99]
-%%	the character `%´
+%%	the character `%ï¿½
 ]]
