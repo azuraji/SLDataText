@@ -91,9 +91,9 @@ ns.L = {
 	
 	-- Currency Module
 	["Currency"] = "兌換通貨",
-	["No Currency"] = "無兌換通貨",
+	["No currency"] = "無兌換通貨",
 	["Click to set display currency."] = "點擊設定兌換通貨顯示",
-	["Display Currency"] = "顯示兌換通貨",
+	["Display currency"] = "顯示兌換通貨",
 	
 	-- Exp Module
 	["Max Level Hide"] = "封頂後隱藏",

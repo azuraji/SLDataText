@@ -89,9 +89,9 @@ ns.L = {
 	
 	-- Currency Module
 	["Currency"] = "Bалюта",
-	["No Currency"] = "Нет Bалюта",
+	["No currency"] = "Нет валюты",
 	["Click to set display currency."] = "Нажмите, чтобы установить дисплей валюты.",
-	["Display Currency"] = "дисплей Bалюта",
+	["Display currency"] = "Дисплей валюты",
 	
 	-- Exp Module
 	["Max Level Hide"] = "Скрыть уровне макс",

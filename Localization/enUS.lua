@@ -91,9 +91,9 @@ ns.L = {
 	
 	-- Currency Module
 	["Currency"] = "Currency",
-	["No Currency"] = "No Currency",
+	["No currency"] = "No currency",
 	["Click to set display currency."] = "Click to set display currency.",
-	["Display Currency"] = "Display Currency",
+	["Display currency"] = "Display currency",
 	
 	-- Exp Module
 	["Max Level Hide"] = "Max Level Hide",

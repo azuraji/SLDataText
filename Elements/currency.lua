@@ -58,7 +58,6 @@ function SLDT.Currency:Refresh()
 		SLDT.Currency.currTbl = {}
 		for i = 1, C_CurrencyInfo.GetCurrencyListSize() do
 			local currencyListInfo = C_CurrencyInfo.GetCurrencyListInfo(i)
-			-- local name, isHeader, isExpanded, isUnused, isWatched, count, extraCurrencyType, icon, itemID = GetCurrencyListInfo(i)
 			if ( not currencyListInfo.isHeader ) and ( not currencyListInfo.isTypeUnused ) then
 				SLDT.Currency.currTbl[currencyListInfo.name] = currencyListInfo.quantity
 			end
@@ -68,7 +67,7 @@ function SLDT.Currency:Refresh()
 			local line = TruncateName(db.display)
 			text:SetFormattedText("|cff%s%s:|r %i", SLDT.db.profile.cCol and SLDT.classColor or "ffffff", line, SLDT.Currency.currTbl[db.display])
 		else
-			text:SetText(L["No Currency"])
+			text:SetText(L["No currency"])
 		end
 		
 		SLDT:UpdateBaseFrame(SLDT.Currency, db)
@@ -87,6 +86,7 @@ local function GetCurrList()
 			table.insert(list, currencyListInfo.name)
 		end
 	end
+
 	return list
 end
 
@@ -97,7 +97,7 @@ SLDT.Currency.optsTbl = {
 	[4] = { [1] = "toggle", [2] = L["Force Shown"], [3] = "forceShow" },
 	[5] = { [1] = "toggle", [2] = L["Tooltip On"], [3] = "tooltipOn" },
 	[6] = { [1] = "range", [2] = L["Font Size"], [3] = "fontSize", [4] = 6, [5] = 40, [6] = 1 },
-	[7] = { [1] = "select", [2] = L["Display Currency"], [3] = "display", [4] = GetCurrList() },
+	[7] = { [1] = "select", [2] = L["Display currency"], [3] = "display", [4] = GetCurrList() },
 	[8] = { [1] = "select", [2] = L["Font"], [3] = "font", [4] = SLDT.fontTbl },
 	[9] = { [1] = "select", [2] = L["Justify"], [3] = "aP", [4] = SLDT.justTbl },
 	[10] = { [1] = "text", [2] = L["Parent"], [3] = "anch" },

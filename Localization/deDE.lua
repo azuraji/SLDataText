@@ -5,7 +5,7 @@ ns.L = {
 	-- Core Globals
 	["Combat Fade"] = "Im Kampf ausblenden",
 	["Class Colored"] = "Klassenfarben",
-	["Global Font Size"] = "Allgemeine Schriftgröße",
+	["Global Font Size"] = "Allgemeine Schriftgrï¿½ï¿½e",
 	["ProfDesc"] = "Neues Profil erstellen oder von einem existierenden kopieren. Kopiere die aktuellen Einstellungen in das aktive Profil",
 	["ProfResDesc"] = "Reset Profile",
 	["ProfNew"] = "Neues Profil",
@@ -21,9 +21,9 @@ ns.L = {
 	["active"] = "Aktiv",
 	["inactive"] = "Inaktiv",
 	["global"] = "Global",
-	["Open SLDataText Global Menu"] = "Globales Config Menü öffnen",
+	["Open SLDataText Global Menu"] = "Globales Config Menï¿½ ï¿½ffnen",
 	["<module>"] = "<Module>",
-	["Open Module Option Menu"] = "Modul Options Menü öffnen",
+	["Open Module Option Menu"] = "Modul Options Menï¿½ ï¿½ffnen",
 	["Loaded Modules"] = "Geladene Module",
 	["TTScale"] = "SLToolTip Scale",
 	
@@ -91,9 +91,9 @@ ns.L = {
 	
 	-- Currency Module
 	["Currency"] = "Currency",
-	["No Currency"] = "No Currency",
+	["No currency"] = "No currency",
 	["Click to set display currency."] = "Click to set display currency.",
-	["Display Currency"] = "Display Currency",
+	["Display currency"] = "Display Currency",
 	
 	-- Exp Module
 	["Max Level Hide"] = "Max Level Hide",
