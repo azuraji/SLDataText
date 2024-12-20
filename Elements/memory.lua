@@ -12,10 +12,10 @@ local function SetupToolTip()
 		GameTooltip:SetOwner(this, db.aF)
 		UpdateAddOnMemoryUsage()
 		local addons, total = {}, 0
-		for i = 1, GetNumAddOns() do
-			if ( IsAddOnLoaded(i) ) then
-				local memUse = GetAddOnMemoryUsage(i)
-				table.insert(addons, { GetAddOnInfo(i), memUse })
+		for i = 1, C_AddOns.GetNumAddOns() do
+			if ( C_AddOns.IsAddOnLoaded(i) ) then
+				local memUse = C_AddOns.GetAddOnMemoryUsage(i)
+				table.insert(addons, { C_AddOns.GetAddOnInfo(i), memUse })
 				total = total + memUse
 			end
 		end
@@ -77,8 +77,8 @@ end
 local tags = {
 	["MA"] = function()
 		local total = 0
-		for i = 1, GetNumAddOns() do
-			if ( IsAddOnLoaded(i) ) then total = total + GetAddOnMemoryUsage(i) end
+		for i = 1, C_AddOns.GetNumAddOns() do
+			if ( C_AddOns.IsAddOnLoaded(i) ) then total = total + GetAddOnMemoryUsage(i) end
 		end
 		return string.format("|cffffffff%.1f|r|cff%s", total/1024, SLDT.db.profile.cCol and SLDT.classColor or "ffffff")
 	end,

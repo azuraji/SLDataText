@@ -192,7 +192,7 @@ local function OnInit()
 	SLDT.Guild:Enable()	
 end
 
-if ( IsAddOnLoaded("SLDataText") ) then
+if ( C_AddOns.IsAddOnLoaded("SLDataText") ) then
 	SLDT.Guild:RegisterEvent("PLAYER_ENTERING_WORLD")
 	SLDT.Guild:SetScript("OnEvent", OnInit)
 end

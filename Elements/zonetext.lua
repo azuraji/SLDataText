@@ -50,7 +50,7 @@ local function FixFrames(t)
 		-- MinimapBorderTop.Show = MiniMapWorldMapButton.Hide
 		-- MiniMapWorldMapButton.Show = MiniMapWorldMapButton.Hide
 		
-		if ( IsAddOnLoaded("Chinchilla") ) then
+		if ( C_AddOns.IsAddOnLoaded("Chinchilla") ) then
 			if ( Chinchilla_Location_Frame and Chinchilla_Location_Frame:IsShown() ) then
 				Chinchilla_Location_Frame:Hide()
 			end
@@ -60,7 +60,7 @@ local function FixFrames(t)
 		-- MinimapBorderTop.Show = MiniMapWorldMapButton.Show
 		-- MiniMapWorldMapButton.Show = MiniMapWorldMapButton.Show
 		
-		if ( IsAddOnLoaded("Chinchilla") ) then
+		if ( C_AddOns.IsAddOnLoaded("Chinchilla") ) then
 			if ( Chinchilla_Location_Frame and not Chinchilla_Location_Frame:IsShown() ) then
 				Chinchilla_Location_Frame:Show()
 			end

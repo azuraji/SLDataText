@@ -1,4 +1,4 @@
-## Interface: 100005
+## Interface: 110007
 ## Title: SLDataText
 ## Author: Taffu
 ## Notes: Simple Light Data Text! Updated by azuraji

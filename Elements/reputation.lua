@@ -8,18 +8,6 @@ if ( SLDT ) then SLDT.Reputation = CreateFrame("Frame") end
 local L = SLDT.Locale
 local db, frame, text, tool, tip, noWatch
 
-local standingTbl = {
-	[1] = L["Hated"],
-	[2] = L["Hostile"],
-	[3] = L["Unfriendly"],
-	[4] = L["Neutral"],
-	[5] = L["Friendly"],
-	[6] = L["Honored"],
-	[7] = L["Revered"],
-	[8] = L["Exalted"],
-	[9] = L["Paragon"],
-}
-
 local stdCol = {
     [1] = { r = 0.8, g = 0.3, b = 0.22 },
     [2] = { r = 0.8, g = 0.3, b = 0.22 },
@@ -38,7 +26,7 @@ local function SetupToolTip()
 			
 			tip = SLT:GetTooltip("SLDT_Reputation", false)
 			SLT:AddHeader("SLDT_Reputation", repTbl[1], repTbl[2], { 1, 1, 1 })
-			SLT:AddDoubleLine("SLDT_Reputation", standingTbl[repTbl[3]], string.format("%i/%i", repTbl[6]-repTbl[4], repTbl[5]-repTbl[4]), { stdCol[repTbl[3]].r, stdCol[repTbl[3]].g, stdCol[repTbl[3]].b }, nil)
+			SLT:AddDoubleLine("SLDT_Reputation", repTbl[7], string.format("%i/%i", repTbl[6]-repTbl[4], repTbl[5]-repTbl[4]), { stdCol[repTbl[3]].r, stdCol[repTbl[3]].g, stdCol[repTbl[3]].b }, nil)
 			
 			if ( not InCombatLockdown() ) then SLT:ShowTooltip("SLDT_Reputation", frame) end
 		end
@@ -75,7 +63,7 @@ end
 
 local repCheckTimer = function()
 	SLDT.Reputation:SetScript("OnUpdate", function(self, elapsed)
-		if ( GetNumFactions() > 0 ) then
+		if ( C_Reputation.GetNumFactions() > 0 ) then
 			self:SetScript("OnUpdate", nil)
 			self:Refresh()
 		end
@@ -85,20 +73,58 @@ end
 function SLDT.Reputation:Refresh()
 	if ( db.enabled or SLDataText.db.profile.configMode ) then
 		if ( not self.firstRun ) then self.firstRun = true; SLDT:UpdateBaseText(self, db) end
-		if ( GetNumFactions() == 0 ) then repCheckTimer(); return end
+		if ( C_Reputation.GetNumFactions() == 0 ) then repCheckTimer(); return end
 		
 		noWatch = true
 		SLDT.Reputation.repTbl = {}		
-		for i = 1, GetNumFactions() do
-			local name, desc, sID, barMin, barMax, barVal, _, _, isHeader, _, hasRep, isWatched, _ = GetFactionInfo(i)
-			if ( not isHeader ) then				
-				if ( isWatched ) then
-					-- Store for tooltip use
-					SLDT.Reputation.repTbl = { name, desc, sID, barMin, barMax, barVal }
+		for i = 1, C_Reputation.GetNumFactions() do
+			local factionData = C_Reputation.GetFactionDataByIndex(i)
+			if ( not factionData.isHeader ) then				
+				if ( factionData.isWatched ) then
+					local minRep = factionData.currentReactionThreshold
+					local maxRep = factionData.nextReactionThreshold
+					local currentRep = factionData.currentStanding
+					local factionStandingLabel = _G["FACTION_STANDING_LABEL" .. factionData.reaction]
+
+					local renownReputationData = C_MajorFactions.GetMajorFactionData(factionData.factionID)
+					local currentRepParagon, maxRepParagon = C_Reputation.GetFactionParagonInfo(factionData.factionID)
+					local friendshipReputationInfo = C_GossipInfo.GetFriendshipReputation(factionData.factionID)
 					
-					local repPer = (100/(barMax-barMin))*(barVal-barMin)
-					text:SetFormattedText("|cff%s%s:|r %.0f%%", SLDT.db.profile.cCol and SLDT.classColor or "ffffff", name, repPer)
-					text:SetTextColor(stdCol[sID].r, stdCol[sID].g, stdCol[sID].b)
+
+					if renownReputationData ~= nil then																		--Renown
+						minRep = 0
+						maxRep = renownReputationData.renownLevelThreshold
+						currentRep = renownReputationData.renownReputationEarned
+						factionStandingLabel = "Renown " .. renownReputationData.renownLevel
+
+						if currentRepParagon ~= nil then																		--Renown + Paragon
+							maxRep = maxRepParagon
+							currentRep = currentRepParagon % maxRepParagon
+							factionStandingLabel = factionStandingLabel .. " + Paragon"
+						end
+					elseif currentRepParagon ~= nil then																	--Paragon
+						minRep = 0
+						maxRep = maxRepParagon
+						currentRep = currentRepParagon % maxRepParagon
+						factionStandingLabel = "Paragon"
+					elseif friendshipReputationInfo and friendshipReputationInfo.friendshipFactionID == factionData.factionID then	--Friendship
+						minRep = 0
+						maxRep = friendshipReputationInfo.nextThreshold and friendshipReputationInfo.nextThreshold - friendshipReputationInfo.reactionThreshold or friendshipReputationInfo.maxRep
+						currentRep = maxRep - (friendshipReputationInfo.nextThreshold and friendshipReputationInfo.nextThreshold - friendshipReputationInfo.standing or 0)
+						factionStandingLabel = friendshipReputationInfo.reaction
+					end
+
+					-- Store for tooltip use
+					SLDT.Reputation.repTbl = { factionData.name, factionData.description, factionData.reaction, minRep, maxRep, currentRep, factionStandingLabel }
+					local repPer = (100 / (maxRep - minRep)) * (currentRep - minRep)
+					text:SetFormattedText("|cff%s%s:|r %.0f%%", SLDT.db.profile.cCol and SLDT.classColor or "ffffff", factionData.name, repPer)
+
+					if (stdCol[factionData.reaction] == nil) then
+						text:SetTextColor(1, 1, 1)
+					else
+						text:SetTextColor(stdCol[factionData.reaction].r, stdCol[factionData.reaction].g, stdCol[factionData.reaction].b)
+					end
+
 					noWatch = false
 				end
 			end

@@ -187,7 +187,7 @@ local function OnInit()
 	SLDT.Friends:Enable()	
 end
 
-if ( IsAddOnLoaded("SLDataText") ) then
+if ( C_AddOns.IsAddOnLoaded("SLDataText") ) then
 	SLDT.Friends:RegisterEvent("PLAYER_ENTERING_WORLD")
 	SLDT.Friends:SetScript("OnEvent", OnInit)
 end
